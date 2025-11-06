@@ -1,0 +1,13 @@
+{
+  "name": "my-awesome-package",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "test": "firefox index.html"
+
+  }
+}

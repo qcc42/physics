@@ -2,6 +2,16 @@
 
 const canvas = document.getElementById('simulationCanvas');
 const ctx = canvas.getContext('2d');
+let keydown = false;
+canvas.addEventListener("keydown", (e) => {
+
+  
+        console.log('down')
+        keydown = true;
+        e.preventDefault();
+    return;
+}
+)
 
 class Ball {
     constructor(x, y, radius, color) {
@@ -44,6 +54,7 @@ class Ball {
     }
 }
 
+
 // Initialize the ball
 const ball = new Ball(400, 100, 20, 'blue');
 
@@ -56,6 +67,10 @@ const groundY = canvas.height - 50;
 // Time variables
 let lastTime = null;
 
+
+
+
+
 function animate(time) {
     if (!lastTime) lastTime = time;
     const deltaTime = (time - lastTime) / 1000; // Convert to seconds
@@ -65,9 +80,15 @@ function animate(time) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Apply gravity
+    if (keydown){
+        ball.applyForce(10, 0)
+
+    }
+    else{
     ball.applyForce(0, ball.mass * gravity);
 
     // Update ball physics
+    }
     ball.update(deltaTime);
 
     // Collision with ground
@@ -75,6 +96,7 @@ function animate(time) {
         ball.y = groundY - ball.radius;
         ball.vy *= -0.7; // Reverse velocity with damping
     }
+  
 
     // Draw ground
     ctx.fillStyle = 'green';

@@ -18,6 +18,33 @@ function myFunction2(e){
         keydown = false;
 }
 
+class Sine{
+    constructor(x, y, a, p, v, dir, color){
+        this.x = x;
+        this.y = y;
+        this.a = a;
+        this.p = p;
+        this.v = v;
+        this.color = color;
+        this.dir = dir;
+    }
+    update(deltaTime){
+        this.x = Math.sin(deltaTime*this.v);
+        this.y = deltaTime*this.v;
+    }
+
+    draw(ctx) {
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 2;
+         ctx.lineJoin = "round";
+        ctx.lineCap = "round";
+    
+        ctx.lineTo(this.x, this.y);
+        ctx.stroke();
+
+    }
+
+}
 
 class Ball {
     constructor(x, y, radius, color) {
@@ -62,6 +89,7 @@ class Ball {
 
 
 // Initialize the ball
+const sinwave = new Sine(400, 100, 3, 3, 10, true, 'blue')
 const ball = new Ball(400, 100, 20, 'blue');
 
 // Gravity constant (pixels per second squared)
@@ -78,16 +106,17 @@ let lastTime = null;
 
 
 function animate(time) {
+      ctx.beginPath();
     if (!lastTime) lastTime = time;
     const deltaTime = (time - lastTime) / 1000; // Convert to seconds
     lastTime = time;
 
     // Clear the canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
 
     // Apply gravity
     if (keydown){
-        ball.applyForce(10, 10 + ball.mass*gravity);
+        ball.applyForce(0, 1000 + ball.mass*gravity);
 
     }
     else{
@@ -96,7 +125,7 @@ function animate(time) {
     // Update ball physics
     }
     ball.update(deltaTime);
-
+    sinwave.update(deltaTime);
     // Collision with ground
     if (ball.y + ball.radius > groundY) {
         ball.y = groundY - ball.radius;
@@ -110,6 +139,7 @@ function animate(time) {
 
     // Draw the ball
     ball.draw(ctx);
+    sinwave.draw(ctx);
 
     requestAnimationFrame(animate);
 }

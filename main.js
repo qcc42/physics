@@ -3,15 +3,21 @@
 const canvas = document.getElementById('simulationCanvas');
 const ctx = canvas.getContext('2d');
 let keydown = false;
-canvas.addEventListener("keydown", (e) => {
+window.addEventListener("keydown", myFunction);
+window.addEventListener("keyup", myFunction2);
 
-  
-        console.log('down')
-        keydown = true;
+function myFunction(e){
         e.preventDefault();
-    return;
+        console.log('down');
+        keydown = true;
 }
-)
+
+function myFunction2(e){
+        e.preventDefault();
+        console.log('up');
+        keydown = false;
+}
+
 
 class Ball {
     constructor(x, y, radius, color) {
@@ -32,11 +38,11 @@ class Ball {
     }
 
     update(deltaTime) {
-        // Update velocity
+        // Update velocityssss
         this.vx += this.ax * deltaTime;
         this.vy += this.ay * deltaTime;
 
-        // Update position
+        // Update positions
         this.x += this.vx * deltaTime;
         this.y += this.vy * deltaTime;
 
@@ -81,7 +87,7 @@ function animate(time) {
 
     // Apply gravity
     if (keydown){
-        ball.applyForce(10, 0)
+        ball.applyForce(10, 10 + ball.mass*gravity);
 
     }
     else{
